@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="searchBar">
+    <h2> Points kilométriques </h2>
     <label>Saisir un axe routier <em>national</em>
       <input v-model="selectedRoad" list="roads-datalist" placeholder="Par exemple « A6 »"/>
       <datalist id="roads-datalist">
@@ -21,12 +22,14 @@
         </span><br/>
         <input v-model.number="pointk" type="number"/>
       </label>
+      <hr>
       <div v-for="coord in coordinates">
         <p>
-          <strong>Longitude&nbsp;:</strong> {{coord.lng}} <br/>
-          <strong>Latitude&nbsp;:</strong> {{coord.lat}} <br/>
+          <strong>Longitude&nbsp;:</strong> <input class="coord" v-on:click="selectEl($event)" readonly :value="coord.lng"><br/>
+          <strong>Latitude&nbsp;:</strong> <input class="coord" v-on:click="selectEl($event)" readonly :value="coord.lat"><br/>
           <strong>Département&nbsp;:</strong> {{coord.departement}}
         </p>
+        <hr>
       </div>
       <div v-if="!ok">{{reason}}</div>
     </div>
@@ -46,7 +49,7 @@ function cleanRoadName (roadName, dep) {
 
 function cleanSide (side) {
   let map = {
-    D: 'Droite',
+    D: 'Droit',
     G: 'Gauche',
     I: 'Inconnu'
   }
@@ -150,6 +153,9 @@ export default {
         download: true,
         complete: this.parseResult
       })
+    },
+    selectEl (event) {
+      event.target.select()
     }
   },
   watch: {
@@ -163,3 +169,36 @@ export default {
   }
 }
 </script>
+
+<style>
+  #searchBar {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    box-sizing: border-box;
+    height: 100%;
+    padding-top: 30px;
+    padding-left: 50px;
+    width:40%;
+  }
+
+  @media (max-width: 1240px) {
+    #searchBar {
+      padding-top: 15px;
+      padding-left: 10px;
+      width:60%;
+    }
+  }
+
+  @media (max-width: 750px) {
+    #searchBar {
+      position: static;
+      padding-top: 2px;
+      padding-left: 2px;
+      width:100%;
+    }
+  }
+  .coord {
+    border: none;
+  }
+</style>
