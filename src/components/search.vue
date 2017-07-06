@@ -2,7 +2,7 @@
   <div id="searchBar">
     <h2> Points kilométriques </h2>
     <label>Saisir un axe routier national</label>
-      <input class="myinputs" v-model="selectedRoad" type="search" list="roads-datalist" placeholder="Par exemple « A6 »"/>
+      <input class="myinputs" v-model="selectedRoad" type="search" list="roads-datalist" placeholder="Par exemple « A6 »" autofocus/>
       <datalist id="roads-datalist">
         <option v-for="(moo, road) in roads"> {{road}} </option>
       </datalist>
@@ -69,7 +69,7 @@ export default {
       return this.road[this.selectedSide]
     },
     nearests () {
-      if (this.road && this.selectedSide && this.pointk) {
+      if (this.road && this.selectedSide && this.pointk !== null) {
         return [this.pointsk[Math.floor(this.pointk)],
           this.pointsk[Math.ceil(this.pointk)]]
       }
